@@ -16,3 +16,6 @@ Please run run_MKCF.cpp to use our tracker. If you encounter the speed problem, 
 1. You need to download OTB2013, OTB2015 or NfS in ./sequences to evaluate our tracker;
 2. Choose the corresponding parameters set to achieve the best performance;
 3. Files in ./utils can be used for evaluation with Matlab and results are stored in ./res.
+
+### Results
+![image](/figure/4AUC_trackers_OTB2013.pdf)
