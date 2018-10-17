@@ -21,4 +21,4 @@ Please run run_MKCF.cpp to use our tracker. If you encounter the speed problem, 
 <figure class="half">
     <img src="4PRE_trackers_OTB2013.jpg" width="300"/>
     <img src="4AUC_trackers_OTB2013.jpg" width="300"/>
-</figure>
+</center>
