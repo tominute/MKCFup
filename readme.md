@@ -1,4 +1,4 @@
-This is the implementation of our MKCFup paper.  We use DSST instead of fDSST in C++ version for higher speed.
+This is the implementation of our MKCFup paper in CVPR18.  We use DSST instead of fDSST in C++ version for higher speed.
 We performed this implementation on a PC with Intel Core i7-7700 3.60GHz CPU and 8GB RAM.
 The average FPS is 175 on OTB2013 with Release-x64 mode and our results are stored in ./res.
 
