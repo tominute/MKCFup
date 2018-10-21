@@ -3,6 +3,7 @@ We performed this implementation on a PC with Intel Core i7-7700 3.60GHz CPU and
 
 The average FPS is **175** on OTB2013 with Release-x64 mode and our results are stored in ./res.
 
+---
 ### Before running our code, check if you have finished the following steps.
 
 1. Install visual studio 2015, fftw3.3.5 and opencv3.2 or better;
@@ -18,4 +19,5 @@ Please run run_MKCF.cpp to use our tracker. If you encounter the speed problem, 
 2. Choose the corresponding parameters set to achieve the best performance;
 3. Files in ./utils can be used for evaluation with Matlab and results are stored in ./res.
 
-<center class="half"><img src="4PRE_trackers_OTB2013.jpg" width="200"/><img src="4AUC_trackers_OTB2013.jpg" width="200"/></center>
+![](4PRE_trackers_OTB2013.jpg)
+![](4AUC_trackers_OTB2013.jpg)
