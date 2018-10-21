@@ -1,6 +1,6 @@
 This is the implementation of our MKCFup paper in CVPR18.  We use DSST instead of fDSST in C++ version for higher speed.
 We performed this implementation on a PC with Intel Core i7-7700 3.60GHz CPU and 8GB RAM.
-The average FPS is 175 on OTB2013 with Release-x64 mode and our results are stored in ./res.
+The average FPS is **175** on OTB2013 with Release-x64 mode and our results are stored in ./res.
 
 ### Before running our code, check if you have finished the following steps.
 
@@ -18,6 +18,5 @@ Please run run_MKCF.cpp to use our tracker. If you encounter the speed problem, 
 3. Files in ./utils can be used for evaluation with Matlab and results are stored in ./res.
 
 <figure class="half">
-    <img src="4PRE_trackers_OTB2013.jpg">
-    <img src="4AUC_trackers_OTB2013.jpg">
+    <img src="4PRE_trackers_OTB2013.jpg" width="200"/><img src="4AUC_trackers_OTB2013.jpg" width="200"/>
 </center>
