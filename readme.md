@@ -3,6 +3,8 @@ We performed this implementation on a PC with Intel Core i7-7700 3.60GHz CPU and
 
 The average FPS is **175** on OTB2013 with Release-x64 mode and our results are stored in ./res.
 
+Matlab version please refer [MKCF](https://github.com/tominute/MKCF)
+
 ---
 ### Before running our code, check if you have finished the following steps.
 
