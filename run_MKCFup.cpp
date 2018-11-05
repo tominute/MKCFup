@@ -34,9 +34,9 @@ COMPLEX **fmy;
 float **ffmy;
 float** allocfloat(float **mem, int h, int w)
 {
-	mem = (float **)malloc(sizeof(float *) * h);//分配指针数组
-	mem[0] = (float *)malloc(sizeof(float) * h * w);//一次性分配所有空间
-	for (int i = 1; i<h; i++)//注意从1开始
+	mem = (float **)malloc(sizeof(float *) * h);
+	mem[0] = (float *)malloc(sizeof(float) * h * w);
+	for (int i = 1; i<h; i++)
 	{
 		mem[i] = mem[i - 1] + w;
 	}
@@ -44,9 +44,9 @@ float** allocfloat(float **mem, int h, int w)
 }
 COMPLEX** alloccomplex(COMPLEX **mem, int h, int w)
 {
-	mem = (COMPLEX **)malloc(sizeof(COMPLEX *) * h);//分配指针数组
-	mem[0] = (COMPLEX *)malloc(sizeof(COMPLEX) * h * w);//一次性分配所有空间
-	for (int i = 1; i<h; i++)//注意从1开始
+	mem = (COMPLEX **)malloc(sizeof(COMPLEX *) * h);
+	mem[0] = (COMPLEX *)malloc(sizeof(COMPLEX) * h * w);
+	for (int i = 1; i<h; i++)
 	{
 		mem[i] = mem[i - 1] + w;
 	}
