@@ -8,7 +8,7 @@ Matlab version please refer [MKCF](https://github.com/tominute/MKCF)
 ---
 ### Before running our code, check if you have finished the following steps.
 
-1. Install visual studio 2015, fftw3.3.5 and opencv3.2 or better;
+1. Install visual studio 2015, fftw3.3.5 and opencv3.2;
 2. Make sure cn_data.cpp, ComplexMat.cpp and gradientMex.cpp have been added in your project;
 3. Open the OpenMP support in your visual studio;
 4. Use release mode.
