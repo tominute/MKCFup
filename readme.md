@@ -21,5 +21,4 @@ Please run run_MKCF.cpp to use our tracker. If you encounter the speed problem, 
 2. Choose the corresponding parameters set to achieve the best performance;
 3. Files in ./utils can be used for evaluation with Matlab and results are stored in ./res.
 
-![](4PRE_trackers_OTB2013.jpg)
 ![](4AUC_trackers_OTB2013.jpg)
