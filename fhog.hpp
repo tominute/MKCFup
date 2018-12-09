@@ -27,7 +27,7 @@ public:
         // I -> input image, M, O -> mag, orientation OUTPUT
 		cv::Mat patch = img.clone();
 		if (patch.channels() == 3)
-			cv::cvtColor(patch, patch, CV_BGR2GRAY);
+			cv::cvtColor(patch, patch, cv::COLOR_BGR2GRAY);
 		patch.convertTo(patch, CV_32FC1, 1.0 / 255);
         int h = img.rows, w = img.cols, d = 1;
         bool full = true;
@@ -85,7 +85,7 @@ public:
         } else {
             fhog( M, O, H, h, w, bin_size, n_orients, soft_bin, clip );
         }
-		
+
         //convert, assuming row-by-row-by-channel storage
         std::vector<cv::Mat> res;
         int n_res_channels = (use_hog == 2) ? n_chns-1 : n_chns;    //last channel all zeros for fhog
@@ -120,7 +120,7 @@ public:
         delete [] M;
         delete [] O;
         delete [] H;
-		
+
         return res;
     }
 };
