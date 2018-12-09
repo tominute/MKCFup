@@ -6,9 +6,9 @@
 #include <fftw3.h>
 #include <opencv2\opencv.hpp>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> 
 #include <vector>
-#include <string>
+#include <string>  
 #include "fhog.hpp"
 #include "cnfeat.hpp"
 #include "omp.h"
@@ -65,9 +65,9 @@ void FFT2(float **input, COMPLEX **output, int height, int width)
 			inR[i * width + j][1] = 0;
 		}
 	planR = fftwf_plan_dft_2d(height, width, inR, outR, FFTW_FORWARD, FFTW_ESTIMATE);
-
+	
 	fftwf_execute(planR);
-
+	
 	for (int i = 0; i < height; i++)
 		for (int j = 0; j < width; j++)
 		{
@@ -132,8 +132,8 @@ struct complex_mat newfft2(const Mat &input)
 	}
 	out.real = real.clone();
 	out.img = img.clone();
-
-
+	
+	
 	return out;
 }
 struct complex_mat newfft2(const Mat &input, const Mat &cos_window)
@@ -165,7 +165,7 @@ struct complex_mat newfft2(const Mat &input, const Mat &cos_window)
 	}
 	out.real = real.clone();
 	out.img = img.clone();
-
+	
 	return out;
 }
 Mat newifft2(const complex_mat &input)
@@ -194,7 +194,7 @@ Mat newifft2(const complex_mat &input)
 			data[j] = ffm[i][j];
 		}
 	}
-
+	
 	return tempp;
 }
 Mat newifft2_for_y(const complex_mat &input)
@@ -224,17 +224,17 @@ Mat newifft2_for_y(const complex_mat &input)
 
 	return tempp;
 }
-Mat cosine_window_function(int dim1, int dim2)
-{
-	Mat m1(1, dim1, CV_32FC1), m2(dim2, 1, CV_32FC1);
+Mat cosine_window_function(int dim1, int dim2)                                     
+{                                                                                                    
+	Mat m1(1, dim1, CV_32FC1), m2(dim2, 1, CV_32FC1);                                           
 	double N_inv = 1. / (static_cast<double>(dim1) - 1.);
-	for (int i = 0; i < dim1; ++i)
-		m1.at<float>(i) = 0.5*(1. - cos(2. * CV_PI * static_cast<double>(i) * N_inv));
-	N_inv = 1. / (static_cast<double>(dim2) - 1.);
-	for (int i = 0; i < dim2; ++i)
-		m2.at<float>(i) = 0.5*(1. - cos(2. * CV_PI * static_cast<double>(i) * N_inv));
-	Mat ret = m2*m1;
-	return ret;
+	for (int i = 0; i < dim1; ++i)                                                                      
+		m1.at<float>(i) = 0.5*(1. - cos(2. * CV_PI * static_cast<double>(i) * N_inv));            
+	N_inv = 1. / (static_cast<double>(dim2) - 1.);                                                 
+	for (int i = 0; i < dim2; ++i)                                                                 
+		m2.at<float>(i) = 0.5*(1. - cos(2. * CV_PI * static_cast<double>(i) * N_inv));        
+	Mat ret = m2*m1;                                                                       
+	return ret;                                                                            
 }
 Mat scale_window_function(int dim1)
 {
@@ -311,25 +311,25 @@ Mat circshift(const Mat &patch, int x_rot, int y_rot)
 
 	return rot_patch;
 }
-Mat gaussian_shaped_labels(double sigma, int dim1, int dim2)
+Mat gaussian_shaped_labels(double sigma, int dim1, int dim2)                         
 {
-
-	Mat labels(dim2, dim1, CV_32FC1);
-	int range_y[2] = { -dim2 / 2, dim2 - dim2 / 2 };
-	int range_x[2] = { -dim1 / 2, dim1 - dim1 / 2 };
-	double sigma_s = sigma*sigma;
-	for (int y = range_y[0], j = 0; y < range_y[1]; ++y, ++j)
+	
+	Mat labels(dim2, dim1, CV_32FC1);                                                         
+	int range_y[2] = { -dim2 / 2, dim2 - dim2 / 2 };                                                  
+	int range_x[2] = { -dim1 / 2, dim1 - dim1 / 2 };                                                  
+	double sigma_s = sigma*sigma;                                                                     
+	for (int y = range_y[0], j = 0; y < range_y[1]; ++y, ++j) 
 	{
-		float * row_ptr = labels.ptr<float>(j);
-		double y_s = y*y;
-		for (int x = range_x[0], i = 0; x < range_x[1]; ++x, ++i)
+		float * row_ptr = labels.ptr<float>(j);                                                         
+		double y_s = y*y;                                                                               
+		for (int x = range_x[0], i = 0; x < range_x[1]; ++x, ++i) 
 		{
-			row_ptr[i] = std::exp(-0.5 * (y_s + x*x) / sigma_s);
-		}
-	}
-	//rotate so that 1 is at top-left corner (see KCF paper for explanation)
-	Mat rot_labels = circshift(labels, range_x[0], range_y[0]);
-	assert(rot_labels.at<float>(0, 0) >= 1.f - 1e-10f);
+			row_ptr[i] = std::exp(-0.5 * (y_s + x*x) / sigma_s);                           
+		}                                                                                      
+	}                                                                                                  
+	//rotate so that 1 is at top-left corner (see KCF paper for explanation)                      
+	Mat rot_labels = circshift(labels, range_x[0], range_y[0]);                
+	assert(rot_labels.at<float>(0, 0) >= 1.f - 1e-10f);                            
 	return rot_labels;
 }
 Mat get_subwindow(const Mat &input, int cx, int cy, int width, int height, float currentScaleFactor)
@@ -418,10 +418,10 @@ Mat get_scale_subwindow(const Mat &input, int cx, int cy, int width, int height,
 	for (int i = 0; i < nScales; ++i)
 	{
 		vector<Mat> hog_feat(num_hog_fea);
-		cv::Size sz;
+		cv::Size sz;	
 		sz.width = floor(width*scaleFactors[i]* currentScaleFactor);
 		sz.height = floor(height*scaleFactors[i]* currentScaleFactor);
-		cv::Mat subWindow;
+		cv::Mat subWindow;		
 		cv::Point lefttop(min(input.cols - 2, max(-sz.width + 1, centerCoor.x - cvFloor(float(sz.width) / 2.0) + 1)),
 			min(input.rows - 2, max(-sz.height + 1, centerCoor.y - cvFloor(float(sz.height) / 2.0) + 1)));
 		cv::Point rightbottom(lefttop.x + sz.width, lefttop.y + sz.height);
@@ -433,15 +433,15 @@ Mat get_scale_subwindow(const Mat &input, int cx, int cy, int width, int height,
 		input(roiRect).copyTo(subWindow);
 		if (border != cv::Rect(0, 0, 0, 0))
 			cv::copyMakeBorder(subWindow, subWindow, border.y, border.height, border.x, border.width, cv::BORDER_REPLICATE);
-		Mat out, temp;
+		Mat out, temp;		
 		resize(subWindow, out, outsize);
 		if (imchannel == 3)
 		{
-			cvtColor(out, temp, COLOR_BGR2GRAY);
+			cvtColor(out, temp, CV_BGR2GRAY);
 			hog_feat = FHoG::extract(out);
 		}
 		else
-			hog_feat = FHoG::extract(out);
+			hog_feat = FHoG::extract(out);	
 		float *data = out_pca.ptr<float>(i);
 		int p = 0;
 		for (int j = 0; j < num_hog_fea; ++j)
@@ -461,7 +461,7 @@ Mat new_gaussian_correlation(const vector<complex_mat> &xf, const vector<complex
 	float yf_sqr_norm = auto_correlation ? xf_sqr_norm : sqrnorm(yf, fea, channel);
 	float numel_xf_inv;
 	vector<complex_mat> xyf = auto_correlation ? sqrmag(xf, fea, channel) : sqrmag(xf, yf, fea, channel);
-
+	
 
 	//ifft2 and sum over 3rd dimension, we dont care about individual channels
 	Mat xy_sum(xf[0].img.rows, xf[0].img.cols, CV_32FC1);
@@ -488,7 +488,7 @@ Mat new_gaussian_correlation(const vector<complex_mat> &xf, const vector<complex
 		numel_xf_inv = 1.f / (xf[0].img.rows * xf[0].img.cols * num_pca_fea);
 	}
 	xy_sum = newifft2(temp);
-
+	
 	Mat tmp;
 	//complex_mat temp;
 	cv::exp(-1.f / (sigma * sigma) * cv::max((xf_sqr_norm + yf_sqr_norm - 2 * xy_sum) * numel_xf_inv, 0), tmp);
@@ -511,8 +511,8 @@ struct model newtrainmodel(complex_mat &alphaf_num1, complex_mat &alphaf_num2, c
 	complex_mat new_num1, new_num2, new_den1, new_den2, alphaf_num11, alphaf_num22, alphaf_den11, alphaf_den22, alphaf_num, alphaf_den;
 	while (stop == 0)
 	{
-
-		//train alpha
+		
+		//train alpha 
 		new_num1 = mul_com(yf, mul_com(kf_cn, p.d[0]));
 		new_num2 = mul_com(yf, mul_com(kf_hog, p.d[1]));
 		new_den1 = mul_com(mul_com(kf_cn, p.d[0]) , plus_com(mul_com(conj_com(kf_cn),p.d[0]),lambda));
@@ -536,7 +536,7 @@ struct model newtrainmodel(complex_mat &alphaf_num1, complex_mat &alphaf_num2, c
 			alphaf_den = plus_com(alphaf_den11, alphaf_den22);
 		}
 		p.alphaf = div_com(alphaf_num , alphaf_den);
-
+		
 		//train D
 		temp1 = newifft2(mul_com(conj_com(kf_cn),p.alphaf));
 		temp2 = newifft2(mul_com(conj_com(kf_hog),p.alphaf));
@@ -565,14 +565,14 @@ struct model newtrainmodel(complex_mat &alphaf_num1, complex_mat &alphaf_num2, c
 			d_den11 = d_den1*(1 - learning_rate_cn) + learning_rate_cn*d_new_den1;
 			d_den22 = d_den2*(1 - learning_rate_hog) + learning_rate_hog*d_new_den2;
 		}
-
+		
 		p.d[0] = d_num11 / d_den11;
 		p.d[1] = d_num22 / d_den22;
-
+		
 		float summ = p.d[0] + p.d[1];
 		p.d[0] = p.d[0] / summ;
 		p.d[1] = p.d[1] / summ;
-
+		
 		//iteration
 		count++;
 		if (count > 1)
@@ -588,7 +588,7 @@ struct model newtrainmodel(complex_mat &alphaf_num1, complex_mat &alphaf_num2, c
 		prevD[1] = p.d[1];
 		if (count > 100)break;
 	}
-
+	
 	alphaf_num1 = alphaf_num11;
 	alphaf_num2 = alphaf_num22;
 	alphaf_den1 = alphaf_den11;
@@ -605,15 +605,15 @@ struct complex_mat resizeDFT2(const complex_mat &input, const int *sz)
 	imsz[0] = input.img.rows;
 	imsz[1] = input.img.cols;
 	minsz[0] = imsz[0];
-	minsz[1] = imsz[1];
-	float scaling = sz[0] * sz[1] / (imsz[0] * imsz[1]);
+	minsz[1] = imsz[1];	
+	float scaling = sz[0] * sz[1] / (imsz[0] * imsz[1]); 
 	//cout << minsz[0] << " " << minsz[1] << endl;
 	//cout << sz[0] << " " << sz[1] << endl;
-
+	
 	complex_mat resizeddft, imf;
 	imf.real = input.real.clone();
 	imf.img = input.img.clone();
-
+	
 	resizeddft.real = Mat::zeros(sz[0], sz[1], CV_32FC1);
 	resizeddft.img = Mat::zeros(sz[0], sz[1], CV_32FC1);//cout << resizeddft.real.rows << " " << resizeddft.real.cols << endl;
 	//cout << imf.real << endl;
@@ -621,7 +621,7 @@ struct complex_mat resizeDFT2(const complex_mat &input, const int *sz)
 	mids[1] = ceil(minsz[1] / 2.0);
 	mide[0] = floor((minsz[0] - 1) / 2.0 - 1);
 	mide[1] = floor((minsz[1] - 1) / 2.0 - 1);
-
+	
 	for (int i = 0; i < mids[0]; ++i)
 	{
 		float *data1 = imf.real.ptr<float>(i);
@@ -634,8 +634,8 @@ struct complex_mat resizeDFT2(const complex_mat &input, const int *sz)
 			out2[j] = scaling * data2[j];
 		}
 	}
-
-
+	
+	
 	for (int i = 0; i < mids[0]; ++i)
 	{
 		float *data1 = imf.real.ptr<float>(i);
@@ -647,8 +647,8 @@ struct complex_mat resizeDFT2(const complex_mat &input, const int *sz)
 			out1[j] = scaling * data1[j - sz[1] + minsz[1]];
 			out2[j] = scaling * data2[j - sz[1] + minsz[1]];
 		}
-	}
-
+	}	
+	
 	for (int i = sz[0] - mide[0] - 1; i < sz[0]; ++i)
 	{
 		float *data1 = imf.real.ptr<float>(i - sz[0]+ minsz[0] );
@@ -695,12 +695,12 @@ struct complex_mat resizeDFT(const complex_mat &input, const int n)
 	float *out1 = resizeddft.real.ptr<float>(0);
 	float *out2 = resizeddft.img.ptr<float>(0);
 	for (int i = 0; i < mids; ++i)
-	{
+	{		
 		out1[i] = scaling * data1[i];
 		out2[i] = scaling * data2[i];
 	}
 	for (int i = n - mide - 1; i < n; ++i)
-	{
+	{		
 		out1[i] = scaling * data1[i - n + minsz];
 		out2[i] = scaling * data2[i - n + minsz];
 	}
@@ -722,7 +722,7 @@ int main()
 	double hogsigma_gray				= params.get_hogsigma_gray();
 	double learning_rate_cn_gray		= params.get_learning_rate_cn_gray();
 	double learning_rate_hog_gray		= params.get_learning_rate_hog_gray();
-	double lambda						= params.lambda;
+	double lambda						= params.lambda;	
 	double scale_step					= params.scale_step;
 	double scale_sigma_factor			= params.scale_sigma_factor;
 	double scale_model_max_area			= params.scale_model_max_area;
@@ -743,8 +743,8 @@ int main()
 	omp_set_num_threads(num_threads);
 	float fps = 0;
 	for (int seq_num = 0; seq_num < total_num; ++seq_num)
-	{
-		//load_video_info
+	{	
+		//load_video_info	
 		char buf[100];
 		sprintf(buf, "res/results_%s.txt", sequences[seq_num].c_str());
 		FILE *res = fopen(buf, "w+");
@@ -869,22 +869,22 @@ int main()
 		vector<Mat> cn_feat(cn_channel), x_cn2(cn_out_channel), z_cn2(cn_out_channel);
 		vector<complex_mat> zf_cn(cn_out_channel), xf_cn(cn_out_channel);
 		Mat proj_cn(cn_out_channel, cn_channel, CV_32FC1), proj_hog(num_pca_fea, num_hog_fea, CV_32FC1);
-
+		
 		//Scale initialize
 		float scale_model_factor = 1, scale_sigma = float(nScalesInterp) * scale_sigma_factor;
 		float min_scale_factor, max_scale_factor;
 		int scale_model_sz[2];
 		complex_mat mega_ysf, sf_den, sf_num_test;
 		Mat mega_scale_window;
-		float *interpScaleFactors= new float[nScalesInterp], *interp_scale_exp= new float[nScalesInterp], *interp_scale_exp_shift= new float[nScalesInterp], *scaleSizeFactors_test= new float[nScales],
+		float *interpScaleFactors= new float[nScalesInterp], *interp_scale_exp= new float[nScalesInterp], *interp_scale_exp_shift= new float[nScalesInterp], *scaleSizeFactors_test= new float[nScales], 
 			*scaleSizeFactors= new float[nScales], *scale_exp= new float[nScales], *scale_exp_shift= new float[nScales];
 		if (use_dsst)
 		{
 			for (int i = -floor((nScales - 1) / 2.); i <= ceil((nScales - 1) / 2.); ++i)
-				scale_exp[int(i + floor((nScales - 1) / 2.))] = i * nScalesInterp / float(nScales);
-			for (int i = 0; i < nScales - floor((nScales - 1) / 2.); ++i)
+				scale_exp[int(i + floor((nScales - 1) / 2.))] = i * nScalesInterp / float(nScales);		
+			for (int i = 0; i < nScales - floor((nScales - 1) / 2.); ++i)		
 				scale_exp_shift[i] = scale_exp[int(floor((nScales - 1) / 2.) + i)];
-			for (int i = nScales - floor((nScales - 1) / 2.); i < nScales; ++i)
+			for (int i = nScales - floor((nScales - 1) / 2.); i < nScales; ++i)	
 				scale_exp_shift[i] = scale_exp[int(i - (nScales - floor((nScales - 1) / 2.)))];
 			for (int i = -floor((nScalesInterp - 1) / 2.); i <= ceil((nScalesInterp - 1) / 2.); ++i)
 				interp_scale_exp[int(i + floor((nScalesInterp - 1) / 2.))] = i;
@@ -957,16 +957,16 @@ int main()
 				cout << "Can't load image！" << endl;
 				break;
 			}
-
+			
 			startTime = clock();
 			//Detection
 			if (frame > start_frame)
 			{
 				//get feature
-				Mat patch = get_subwindow(im, pos[1], pos[0], sz[1], sz[0], currentScaleFactor);
+				Mat patch = get_subwindow(im, pos[1], pos[0], sz[1], sz[0], currentScaleFactor);			
 				hog_feat = FHoG::extract(patch);
 				if (imchannel == 3)
-					cn_feat = CNFeat::extract(patch);
+					cn_feat = CNFeat::extract(patch);			
 				else
 				{
 					patch.convertTo(patch, CV_32FC1, 1.0 / 255);
@@ -975,7 +975,7 @@ int main()
 				cn_feat = average_faeture_region(cn_feat, num_pca_fea, use_sz[0], use_sz[1], cn_channel);
 				z_hog = hog_feat;
 				z_cn = cn_feat;
-
+				
 				//PCA
 				#pragma omp parallel for
 				for (int i = 0; i < num_hog_fea; ++i)
@@ -1021,7 +1021,7 @@ int main()
 						z_cn2[i] = z_cn2[i].reshape(0, use_sz[0]);
 					}
 				}
-				//compute fft and kernel
+				//compute fft and kernel 
 				for (int i = 0; i < num_pca_fea; ++i)
 				{
 					zf_hog[i] = newfft2(z_hog2[i], cos_window);
@@ -1033,7 +1033,7 @@ int main()
 				Mat kzf_hog = new_gaussian_correlation(xf_hog, zf_hog, hogsigma, 0, 1, imchannel, num_pca_fea);
 				Mat kzf_cn = new_gaussian_correlation(xf_cn, zf_cn, cnsigma, 0, 0, imchannel, num_pca_fea);
 				//get response
-				complex_mat responsef = mul_com(conj_com(newfft2(p.d[1] * kzf_hog + p.d[0] * kzf_cn)), p.alphaf);
+				complex_mat responsef = mul_com(conj_com(newfft2(p.d[1] * kzf_hog + p.d[0] * kzf_cn)), p.alphaf);					
 				responsef = resizeDFT2(responsef, interp_sz);
 				Mat response = newifft2_for_y(responsef);
 				//target location
@@ -1061,20 +1061,20 @@ int main()
 
 					complex_mat temp_sf_test = mul_com(sf_num_test, xsf_test);
 					complex_mat temp_scale_responsef_test;
-					reduce(temp_sf_test.real, temp_scale_responsef_test.real, 0, REDUCE_SUM, CV_32FC1);
-					reduce(temp_sf_test.img, temp_scale_responsef_test.img, 0, REDUCE_SUM, CV_32FC1);
+					reduce(temp_sf_test.real, temp_scale_responsef_test.real, 0, CV_REDUCE_SUM, CV_32FC1);
+					reduce(temp_sf_test.img, temp_scale_responsef_test.img, 0, CV_REDUCE_SUM, CV_32FC1);
 
 					complex_mat scale_responsef = div_com(temp_scale_responsef_test, plus_com(sf_den, lambda));
 					complex_mat redft = resizeDFT(scale_responsef, nScalesInterp);
-
+				
 					channels[0] = redft.real.clone();
 					channels[1] = redft.img.clone();
 					merge(channels, kk);
 					idft(kk, kk2);
 					split(kk2, channels);
-					Mat interp_scale_response = channels[0].clone();
-					minMaxLoc(interp_scale_response, 0, 0, 0, &max_loc);
-					currentScaleFactor = currentScaleFactor * interpScaleFactors[max_loc.x];
+					Mat interp_scale_response = channels[0].clone();	
+					minMaxLoc(interp_scale_response, 0, 0, 0, &max_loc);					
+					currentScaleFactor = currentScaleFactor * interpScaleFactors[max_loc.x]; 
 					if (currentScaleFactor < min_scale_factor)
 						currentScaleFactor = min_scale_factor;
 					else if (currentScaleFactor > max_scale_factor)
@@ -1226,8 +1226,8 @@ int main()
 				sf_num_test = mul_com(conj_com(sf_proj_test), mega_ysf);
 				complex_mat temp_sf_test = mul_com(xsf_test, conj_com(xsf_test));
 				complex_mat new_sf_den_test;
-				reduce(temp_sf_test.real, new_sf_den_test.real, 0, REDUCE_SUM, CV_32FC1);
-				reduce(temp_sf_test.img, new_sf_den_test.img, 0, REDUCE_SUM, CV_32FC1);
+				reduce(temp_sf_test.real, new_sf_den_test.real, 0, CV_REDUCE_SUM, CV_32FC1);
+				reduce(temp_sf_test.img, new_sf_den_test.img, 0, CV_REDUCE_SUM, CV_32FC1);
 				if (frame == start_frame)
 				{
 					sf_den.real = new_sf_den_test.real.clone();
@@ -1247,7 +1247,7 @@ int main()
 			//visualization
 			if (visualization)
 			{
-				rectangle(im, Point(pos[1] - target_sz[1] / 2, pos[0] - target_sz[0] / 2), Point(pos[1] + target_sz[1] / 2, pos[0] + target_sz[0] / 2), Scalar(255, 0, 0), 1, 1, 0);
+				rectangle(im, cvPoint(pos[1] - target_sz[1] / 2, pos[0] - target_sz[0] / 2), cvPoint(pos[1] + target_sz[1] / 2, pos[0] + target_sz[0] / 2), Scalar(255, 0, 0), 1, 1, 0);
 				sprintf(buf, "Seq: %s" , name);
 				namedWindow(buf);
 				imshow(buf, im);
@@ -1255,7 +1255,7 @@ int main()
 			}
 		}
 		//free space
-		fclose(res);
+		fclose(res);	
 		delete[] interpScaleFactors;
 		delete[] interp_scale_exp;
 		delete[] interp_scale_exp_shift;
@@ -1268,13 +1268,13 @@ int main()
 		free(m[0]);
 		free(ffm);
 		free(fm);
-		free(m);
+		free(m);	
 		free(ffmy[0]);
-		free(fmy[0]);
+		free(fmy[0]);		
 		free(ffmy);
 		free(fmy);
 		destroyWindow(buf);
-		//show speed
+		//show speed 
 		total_time = total_time / CLOCKS_PER_SEC;
 		float temp_fps = (end_frame - start_frame + 1) / total_time;
 		fps += temp_fps;
@@ -1282,6 +1282,6 @@ int main()
 	}
 	//(175fps on OTB2013 at PC of Intel(R) Core(TM) i7-7700 CPU @ 3.60Ghz)
 	cout << "Average FPS: " << fps / total_num << endl;
-	waitKey(0);
+	waitKey(0);	
 	return 0;
 }
