@@ -5,7 +5,8 @@ The average FPS is **175** on OTB2013 with Release-x64 mode and our results are 
 
 Matlab version please refer [MKCF](https://github.com/tominute/MKCF)
 
-Note: Most of the C API has been excluded according to opencv4, if you use opencv3, some APT may change in run_MKCFup.cpp and fhog.hpp.
+Note: Most of the C API has been excluded according to opencv4, if you use opencv3, some API may be changed in run_MKCFup.cpp and fhog.hpp.
+
 ---
 ### Before running our code, check if you have finished the following steps.
 
