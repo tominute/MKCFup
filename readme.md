@@ -10,7 +10,7 @@ Note: Most of the C API has been excluded according to opencv4, if you use openc
 ---
 ### Before running our code, check if you have finished the following steps.
 
-1. Install visual studio 2015+, fftw3.3.5+ and opencv3.2+;
+1. Install visual studio 2015+, fftw3.3.5+(could use cv::fft instead but may be a little slower) and opencv3.2+;
 2. Make sure cn_data.cpp, ComplexMat.cpp and gradientMex.cpp have been added in your project;
 3. Open the OpenMP support in your visual studio;
 4. Use release mode.
